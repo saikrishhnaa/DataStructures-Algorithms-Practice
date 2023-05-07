@@ -29,29 +29,55 @@ n == boxes.length
 boxes[i] is either '0' or '1'.
 */
 
+import java.util.List;
+import java.util.ArrayList;
+
 class Solution {
     public int[] minOperations(String boxes) {
         char[] ballsBoxes = boxes.toCharArray();
         int[] answer = new int[ballsBoxes.length];
+        /*
+        // My approach
+        ArrayList<Integer> boxesWithBalls = new ArrayList<Integer>();
+        
         for(int i = 0; i < ballsBoxes.length; i++) {
-            for(int j = 0; j < ballsBoxes.length; j++) {
-                if(i != j && ballsBoxes[j] == '1') {
-                    answer[i] += Math.abs(i - j);
-                }
+            if(ballsBoxes[i] == '1') {
+                boxesWithBalls.add(i);
+            }
+        }
+
+        for(int i = 0; i < ballsBoxes.length; i++) {
+            for(int j = 0; j < boxesWithBalls.size(); j++) {
+                answer[i] += Math.abs(i - boxesWithBalls.get(j));
             }
         }
         return answer;
+        */
+
+        // Approach referred from others solution
+        for(int i = 0, ballsCnt = 0, operations = 0; i < ballsBoxes.length; i++) {
+            answer[i] += operations;
+            ballsCnt += ballsBoxes[i] == '1' ? 1 : 0;
+            operations += ballsCnt;
+        }
+        
+        for(int i = ballsBoxes.length - 1, ballsCnt = 0, operations = 0; i >= 0; i--) {
+            answer[i] += operations;
+            ballsCnt += ballsBoxes[i] == '1' ? 1 : 0;
+            operations += ballsCnt;
+        }
+
+        return answer;
     }
 }
-
 
 /*
 Performance:
 
 Runtime
-171 ms (52.64% Beats)
+2 ms (99.12% Beats)
 
 Memory
-43.4 MB (38.54% Beats)
+43.4 MB (40.35% Beats)
 */
 
